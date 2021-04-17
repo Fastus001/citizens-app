@@ -1,5 +1,6 @@
 package pl.sda.spring.citizensapp.person;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.sda.spring.citizensapp.csv.CsvFile;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class PersonReader {
 
@@ -18,11 +20,6 @@ public class PersonReader {
     private final PersonService personService;
     private final PersonMapper mapper;
 
-
-    public PersonReader(PersonService personService, PersonMapper mapper) {
-        this.personService = personService;
-        this.mapper = mapper;
-    }
 
     @PostConstruct
     private void process() {
