@@ -1,10 +1,10 @@
-package pl.sda.spring.citizensapp.person;
+package pl.sda.spring.citizensapp.csv;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-class CsvLine implements Iterable<String> {
+public class CsvLine implements Iterable<String> {
 
     private final List<String> elements;
 

@@ -1,12 +1,21 @@
 package pl.sda.spring.citizensapp.person;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import pl.sda.spring.citizensapp.csv.CsvFile;
+import pl.sda.spring.citizensapp.csv.CsvLine;
+
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-class PersonReader {
+@Slf4j
+@Component
+public class PersonReader {
 
-    List<PersonCsvEntry> process() {
+    @PostConstruct
+    public List<PersonCsvEntry> process() {
         File personFile = new File(getClass().getClassLoader().getResource("person.csv").getFile());
         return this.readFromFile(personFile);
     }
@@ -19,8 +28,7 @@ class PersonReader {
             personCsvEntries.add(new PersonCsvEntry(csvLine));
         }
         long stop = System.currentTimeMillis();
-
-        System.out.println("Converted " + personCsvEntries.size() + " in " + (stop - start) + " ms");
+        log.info("Converted " + personCsvEntries.size() + " in " + (stop - start) + " ms");
         return personCsvEntries;
     }
 }
