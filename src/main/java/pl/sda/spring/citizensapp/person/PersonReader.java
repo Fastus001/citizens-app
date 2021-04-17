@@ -14,10 +14,23 @@ import java.util.List;
 @Component
 public class PersonReader {
 
+    public static final String PERSON_CSV = "person.csv";
+    private final PersonService personService;
+    private final PersonMapper mapper;
+
+
+    public PersonReader(PersonService personService, PersonMapper mapper) {
+        this.personService = personService;
+        this.mapper = mapper;
+    }
+
     @PostConstruct
-    public List<PersonCsvEntry> process() {
-        File personFile = new File(getClass().getClassLoader().getResource("person.csv").getFile());
-        return this.readFromFile(personFile);
+    private void process() {
+        File personFile = new File(getClass().getClassLoader().getResource(PERSON_CSV).getFile());
+        final List<PersonCsvEntry> personCsvEntries = this.readFromFile(personFile);
+        personCsvEntries.stream()
+                .map(mapper::toPerson)
+                .forEach(personService::addPerson);
     }
 
     private List<PersonCsvEntry> readFromFile(File fileName) {
@@ -29,6 +42,7 @@ public class PersonReader {
         }
         long stop = System.currentTimeMillis();
         log.info("Converted " + personCsvEntries.size() + " in " + (stop - start) + " ms");
+
         return personCsvEntries;
     }
 }
